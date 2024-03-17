@@ -22,6 +22,15 @@ class Scanner {
  private:
     void ScanToken();
 
+    /// @brief Parses a string literal from `source_`, and adds
+    // it to the available tokens. Note: no escape sequences
+    // are currently allowed.
+    void String();
+
+    /// @section private helper methods.
+
+    /// @brief Returns the next character from `source_`, and
+    // increments the `current_` pointer.
     char Advance();
 
     void AddToken(const Token::TokenType& type);
@@ -45,6 +54,7 @@ class Scanner {
     const std::string source_;
     std::vector<Token> tokens_;
     int line_ = 1;
+    // Stores the start index of the current token.
     int start_ = 0;
     // Index of where we are in `source_`.
     int current_ = 0;

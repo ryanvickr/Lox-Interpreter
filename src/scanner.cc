@@ -1,7 +1,9 @@
 // Author: Ryan Vickramasinghe
 #include "scanner.h"
 
+#include <ctype.h>
 #include <string>
+#include <utility>
 
 #include "lox-compile.h"
 #include "util.h"
@@ -74,12 +76,37 @@ void Scanner::ScanToken() {
         case '\t': break;
         // Newline:
         case '\n': line_++; break;
+        // Handle string literals:
+        case '"': String(); break;
 
         default:
             util::Error(line_, "Unexpected char.");
             had_error_ = true;
             break;
     }
+}
+
+void Scanner::String() {
+    // Iterate through till we find the end of this string literal.
+    while (Peek() != '\"' && !IsAtEnd()) {
+        if (Peek() == '\n') line_++;
+        Advance();
+    }
+
+    if (IsAtEnd()) {
+        util::Error(line_, "Unterminated string.");
+        had_error_ = true;
+        return;
+    }
+
+    // Iterate past the closing `"`.
+    Advance();
+
+    // Get the value enclosing the quotes.
+    std::string value = source_.substr(start_ + 1, current_ - 1);
+    AddToken(
+        Token::TokenType::STRING,
+        std::make_unique<LoxString>(std::move(value)));
 }
 
 char Scanner::Advance() {

@@ -24,6 +24,8 @@ void LoxCompile::RunPrompt() {
         std::cout << "> ";
 
         // Interpret the line.
+        Scanner scan(line);
+        scan.ScanTokens();
     }
 }
 
