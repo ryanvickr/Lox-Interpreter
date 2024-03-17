@@ -16,6 +16,8 @@ int main(int argc, char* argv[]) {
         // Interpret from the provided file.
         compiler.RunFile("");
     } else {
+        // Opens a command prompt where you can interpret Lox
+        // line-by-line.
         compiler.RunPrompt();
     }
 
