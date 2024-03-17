@@ -5,12 +5,14 @@
 #include <string>
 #include <string_view>
 
+#include "scanner.h"
 #include "token.h"
 
 namespace loxcompile {
 
 void LoxCompile::RunFile(std::string_view file_path) {
     Error(1, "balhasdlfhasld");
+    Scanner scan;
 }
 
 void LoxCompile::RunPrompt() {

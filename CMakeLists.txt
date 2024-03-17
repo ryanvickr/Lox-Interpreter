@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD 20)
 project(clox)
 
 add_library(token "")
+add_library(scanner "")
 add_library(lox-compile "")
 add_subdirectory("src")
 
