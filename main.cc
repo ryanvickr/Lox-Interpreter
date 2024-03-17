@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
         // Interpret from the provided file.
         compiler.RunFile("");
     } else {
-        // Open the command prompt interpreter.
+        compiler.RunPrompt();
     }
 
     return 0;

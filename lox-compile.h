@@ -13,6 +13,8 @@ class LoxCompile {
  public:
     void RunFile(std::string_view file_path);
 
+    void RunPrompt();
+
  private:
     void Report(int line, std::string_view where,
             std::string_view message);
