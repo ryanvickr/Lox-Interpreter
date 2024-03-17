@@ -1,5 +1,4 @@
 // Author: Ryan Vickramasinghe
-
 #ifndef LOX_COMPILE_H
 #define LOX_COMPILE_H
 
@@ -16,14 +15,17 @@ class LoxCompile {
     void RunPrompt();
 
  private:
+    // void Run()
+
     void Report(int line, std::string_view where,
             std::string_view message);
 
     void Error(int line, std::string_view message);
 
+    // Signals that the code being compiled is not executable.
     bool had_error_ = false;
 };
 
-} // loxcompile
+}  // loxcompile
 
 #endif // LOX_COMPILE_H
