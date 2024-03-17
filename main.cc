@@ -1,6 +1,8 @@
 // Author: Ryan Vickramasinghe
 #include <iostream>
 
+#include "lox-compile.h"
+
 int main(int argc, char* argv[]) {
     if (argc > 2) {
         std::cerr << "Usage: clox []" << std::endl;
