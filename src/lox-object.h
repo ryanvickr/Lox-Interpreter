@@ -21,4 +21,26 @@ struct LoxString : LoxObject {
     std::string value_;
 };
 
+// The Lox representation of an integer literal.
+struct LoxInteger : LoxObject {
+    LoxInteger(int value);
+
+    std::ostream& operator<<(std::ostream& stream);
+
+    bool operator==(const LoxInteger& other_int);
+
+    int value_;
+};
+
+// The Lox representation of a double literal.
+struct LoxDouble : LoxObject {
+    LoxDouble(double value);
+
+    std::ostream& operator<<(std::ostream& stream);
+
+    bool operator==(const LoxDouble& other_dbl);
+
+    double value_;
+};
+
 #endif // LOX_OBJECT_H
