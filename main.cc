@@ -1,7 +1,7 @@
 // Author: Ryan Vickramasinghe
 #include <iostream>
 
-#include "lox-compile.h"
+#include "src/lox-compile.h"
 
 using ::loxcompile::LoxCompile;
 
