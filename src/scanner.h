@@ -27,6 +27,10 @@ class Scanner {
     // are currently allowed.
     void String();
 
+    /// @brief Parses an integer or double literal from `source_`,
+    // and adds it to the available tokens.
+    void Number();
+
     /// @section private helper methods.
 
     /// @brief Returns the next character from `source_`, and
@@ -50,6 +54,10 @@ class Scanner {
     /// @brief Returns the next character from `source_`. If this
     // is the end of `source_`, returns `\0`.
     char Peek();
+
+    // /// @brief Returns the 2nd next character from `source_`. If
+    // // this is the end of `source_`, returns `\0`.
+    // char PeekNext();
 
     const std::string source_;
     std::vector<Token> tokens_;

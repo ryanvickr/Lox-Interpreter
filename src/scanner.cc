@@ -80,8 +80,13 @@ void Scanner::ScanToken() {
         case '"': String(); break;
 
         default:
-            util::Error(line_, "Unexpected char.");
-            had_error_ = true;
+            if (isdigit(c)) {
+                Number();
+            } else {
+                util::Error(line_, "Unexpected char.");
+                had_error_ = true;
+            }
+
             break;
     }
 }
@@ -107,6 +112,37 @@ void Scanner::String() {
     AddToken(
         Token::TokenType::STRING,
         std::make_unique<LoxString>(std::move(value)));
+}
+
+void Scanner::Number() {
+    while (isdigit(Peek())) Advance();
+
+    // Check if this is a decimal (double).
+    bool is_decimal = false;
+    if (Peek() == '.') {
+        Advance();
+        if (!isdigit(Peek())) {
+            util::Error(line_, "Invalid number.");
+            had_error_ = true;
+            return;
+        } else {
+            is_decimal = true;
+        }
+    }
+
+    while(isdigit(Peek())) Advance();
+
+    if (is_decimal) {
+        double value = std::stod(source_.substr(start_, current_));
+        AddToken(
+            Token::TokenType::DOUBLE,
+            std::make_unique<LoxDouble>(value));
+    } else {
+        int value = std::stoi(source_.substr(start_, current_));
+        AddToken(
+            Token::TokenType::INTEGER,
+            std::make_unique<LoxInteger>(value));
+    }
 }
 
 char Scanner::Advance() {
@@ -140,5 +176,10 @@ char Scanner::Peek() {
     if (IsAtEnd()) return '\0'; // We're at the end of the line.
     return source_[current_];
 }
+
+// char Scanner::PeekNext() {
+//     if (current_ + 1 >= source_.length()) return '\0';
+//     return source_[current_ + 1];
+// }
 
 }  // loxcompile
