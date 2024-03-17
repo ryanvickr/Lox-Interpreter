@@ -34,6 +34,8 @@ class Scanner {
     int start_ = 0;
     // Index of where we are in `source_`.
     int current_ = 0;
+    // Keeps track of whether this scanner had an error.
+    bool had_error_ = false;
 };
 
 }  // loxcompile

@@ -36,7 +36,10 @@ void Scanner::ScanToken() {
         case ';': AddToken(Token::TokenType::SEMICOLON); break;
         case '*': AddToken(Token::TokenType::STAR); break;
 
-        default: util::Error(line_, "Unexpected char.");
+        default:
+            util::Error(line_, "Unexpected char.");
+            had_error_ = true;
+            break;
     }
 }
 
