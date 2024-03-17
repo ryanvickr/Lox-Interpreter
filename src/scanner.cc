@@ -59,6 +59,21 @@ void Scanner::ScanToken() {
                 Token::TokenType::GREATER_EQUAL :
                 Token::TokenType::GREATER);
             break;
+        // The `//` char can also refer to comments.
+        case '/':
+            if (Match('/')) {
+                // Skip through to chars till the end of this line.
+                while (Peek() != '\n' && !IsAtEnd()) Advance();
+            } else {
+                AddToken(Token::TokenType::SLASH);
+            }
+            break;
+        // Skip over whitespace:
+        case ' ':
+        case '\r':
+        case '\t': break;
+        // Newline:
+        case '\n': line_++; break;
 
         default:
             util::Error(line_, "Unexpected char.");
@@ -92,6 +107,11 @@ bool Scanner::Match(char expected) {
 
     current_++;
     return true;
+}
+
+char Scanner::Peek() {
+    if (IsAtEnd()) return '\0'; // We're at the end of the line.
+    return source_[current_];
 }
 
 }  // loxcompile

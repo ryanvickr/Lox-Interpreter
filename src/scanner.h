@@ -38,6 +38,10 @@ class Scanner {
     // of `source_`. Used to check for double tokens (e.g. `!=`).
     bool Match(char expected);
 
+    /// @brief Returns the next character from `source_`. If this
+    // is the end of `source_`, returns `\0`.
+    char Peek();
+
     const std::string source_;
     std::vector<Token> tokens_;
     int line_ = 1;
