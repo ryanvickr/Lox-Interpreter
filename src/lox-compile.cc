@@ -12,7 +12,7 @@ namespace loxcompile {
 
 void LoxCompile::RunFile(std::string_view file_path) {
     Error(1, "balhasdlfhasld");
-    Scanner scan;
+    Scanner scan("");
 }
 
 void LoxCompile::RunPrompt() {
