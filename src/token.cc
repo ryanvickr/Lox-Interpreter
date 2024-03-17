@@ -3,16 +3,18 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 
 namespace loxcompile {
 
 Token::Token(const TokenType& type, const std::string& lexeme,
-        const std::unique_ptr<std::string>& literal, int line): 
-        type_(type), lexeme_(lexeme), literal_(literal.get()), 
-        line_(line)  {}
+        std::unique_ptr<LoxObject> literal, int line): 
+        type_(type), lexeme_(lexeme),
+        literal_(std::move(literal)), line_(line)  {}
 
 std::ostream& Token::operator<<(std::ostream& stream) {
-    stream << this->type_ << " " << this->lexeme_;
+    stream << this->type_ << " " << this->lexeme_ << 
+        " " << this->literal_;
     return stream;
 }
 

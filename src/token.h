@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include "lox-object.h"
+
 namespace loxcompile {
 
 class Token {
@@ -31,14 +33,22 @@ class Token {
     };
 
     Token(const TokenType& type, const std::string& lexeme,
-        const std::unique_ptr<std::string>& literal, int line);
+        std::unique_ptr<LoxObject> literal, int line);
+
+    Token(Token&& mv_token):
+        type_(mv_token.type_), lexeme_(mv_token.lexeme_),
+        literal_(mv_token.literal_.get()), line_(mv_token.line_) {}
+
+    Token(Token& cp_token):
+        type_(cp_token.type_), lexeme_(cp_token.lexeme_),
+        literal_(cp_token.literal_.get()), line_(cp_token.line_) {}
 
     std::ostream& operator<<(std::ostream& stream);
 
  private:
     const TokenType type_;
     const std::string lexeme_;
-    const std::unique_ptr<std::string> literal_;
+    const std::unique_ptr<LoxObject> literal_;
     const int line_;
 };
 

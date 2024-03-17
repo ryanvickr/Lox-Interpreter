@@ -7,11 +7,12 @@
 
 #include "scanner.h"
 #include "token.h"
+#include "util.h"
 
 namespace loxcompile {
 
 void LoxCompile::RunFile(std::string_view file_path) {
-    Error(1, "balhasdlfhasld");
+    util::Error(1, "balhasdlfhasld");
     Scanner scan("");
 }
 
@@ -24,17 +25,6 @@ void LoxCompile::RunPrompt() {
 
         // Interpret the line.
     }
-}
-
-void LoxCompile::Error(int line, std::string_view message) {
-    Report(line, "", message);
-}
-
-void LoxCompile::Report(int line, std::string_view where,
-            std::string_view message) {
-    std::cerr << "[line " << line << "] Error" << 
-        where << ": " << message << std::endl;
-    had_error_ = true;
 }
 
 }  // loxcompile
