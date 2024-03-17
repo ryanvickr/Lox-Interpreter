@@ -10,7 +10,7 @@ namespace loxcompile {
 
 Scanner::Scanner(const std::string& source): source_(source) {}
 
-void Scanner::ScanTokens() {
+bool Scanner::ScanTokens() {
     // Loop through our source code until we have reached the end.
     while(current_ >= source_.length()) {
         // TODO: Loop through the source and parse out our tokens.
@@ -20,6 +20,8 @@ void Scanner::ScanTokens() {
 
     tokens_.emplace_back(
         Token::TokenType::END_OF, "", nullptr, line_);
+
+    return !had_error_;
 }
 
 void Scanner::ScanToken() {

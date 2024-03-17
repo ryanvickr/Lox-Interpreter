@@ -15,7 +15,9 @@ class Scanner {
  public:
     explicit Scanner(const std::string& source);
 
-    void ScanTokens();
+    /// @brief Returns true if the code scanning succeeded,
+    // and false otherwise.
+    bool ScanTokens();
 
  private:
     void ScanToken();
