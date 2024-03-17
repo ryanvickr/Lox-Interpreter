@@ -12,7 +12,7 @@ Scanner::Scanner(const std::string& source): source_(source) {}
 
 bool Scanner::ScanTokens() {
     // Loop through our source code until we have reached the end.
-    while(current_ >= source_.length()) {
+    while(!IsAtEnd()) {
         // TODO: Loop through the source and parse out our tokens.
         start_ = current_;
         ScanToken();
@@ -27,6 +27,7 @@ bool Scanner::ScanTokens() {
 void Scanner::ScanToken() {
     char c = Advance();
     switch (c) {
+        // Single-char tokens:
         case '(': AddToken(Token::TokenType::LEFT_PAREN); break;
         case ')': AddToken(Token::TokenType::RIGHT_PAREN); break;
         case '{': AddToken(Token::TokenType::LEFT_BRACE); break;
@@ -37,6 +38,27 @@ void Scanner::ScanToken() {
         case '+': AddToken(Token::TokenType::PLUS); break;
         case ';': AddToken(Token::TokenType::SEMICOLON); break;
         case '*': AddToken(Token::TokenType::STAR); break;
+        // Two-char tokens:
+        case '!':
+            AddToken(Match('=') ?
+                Token::TokenType::BANG_EQUAL :
+                Token::TokenType::BANG);
+            break;
+        case '=':
+            AddToken(Match('=') ?
+                Token::TokenType::EQUAL_EQUAL :
+                Token::TokenType::EQUAL);
+            break;
+        case '<':
+            AddToken(Match('=') ?
+                Token::TokenType::LESS_EQUAL :
+                Token::TokenType::LESS);
+            break;
+        case '>':
+            AddToken(Match('=') ?
+                Token::TokenType::GREATER_EQUAL :
+                Token::TokenType::GREATER);
+            break;
 
         default:
             util::Error(line_, "Unexpected char.");
@@ -58,6 +80,18 @@ void Scanner::AddToken(
     std::unique_ptr<LoxObject> literal) {
     std::string text = source_.substr(start_, current_);
     tokens_.emplace_back(type, text, std::move(literal), line_);
+}
+
+bool Scanner::IsAtEnd() {
+    return current_ >= source_.length();
+}
+
+bool Scanner::Match(char expected) {
+    if (IsAtEnd()) return false;
+    if (source_[current_] != expected) return false;
+
+    current_++;
+    return true;
 }
 
 }  // loxcompile

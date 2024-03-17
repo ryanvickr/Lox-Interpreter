@@ -30,6 +30,14 @@ class Scanner {
         const Token::TokenType& type, 
         std::unique_ptr<LoxObject> literal);
 
+    /// @brief Returns true if we are at the end of `source_`.
+    bool IsAtEnd();
+
+    /// @brief Returns true if the current char is equivalent to
+    // the `expected` char. Will also return false if at the end
+    // of `source_`. Used to check for double tokens (e.g. `!=`).
+    bool Match(char expected);
+
     const std::string source_;
     std::vector<Token> tokens_;
     int line_ = 1;
