@@ -9,6 +9,21 @@
 #include "util.h"
 
 namespace loxcompile {
+namespace {
+bool IsDigit(char c) {
+    return c >= '0' && c <= '9';
+}
+
+bool IsAlpha(char c) {
+    return (c >= 'a' && c <= 'z') ||
+        (c >= 'A' && c <= 'Z') ||
+        (c == '_');
+}
+
+bool IsAlphaNumeric(char c) {
+    return IsAlpha(c) || IsDigit(c);
+}
+}  // namespace
 
 Scanner::Scanner(const std::string& source): source_(source) {}
 
@@ -22,6 +37,12 @@ bool Scanner::ScanTokens() {
 
     tokens_.emplace_back(
         Token::TokenType::END_OF, "", nullptr, line_);
+
+    // TODO: Remove this when done:
+    int i = 0;
+    for (const auto& token : tokens_) {
+        std::cout << "Token[" << i++ << "]: " << token << std::endl;
+    }
 
     return !had_error_;
 }
@@ -80,10 +101,10 @@ void Scanner::ScanToken() {
         case '"': String(); break;
 
         default:
-            if (isdigit(c)) {
+            if (IsDigit(c)) {
                 // Handle number literals:
                 Number();
-            } else if (isalpha(c)) {
+            } else if (IsAlpha(c)) {
                 // Handle reserved word identifiers:
                 Identifier();
             } else {
@@ -112,20 +133,21 @@ void Scanner::String() {
     Advance();
 
     // Get the value enclosing the quotes.
-    std::string value = source_.substr(start_ + 1, current_ - 1);
+    std::string value = source_.substr(
+        start_ + 1, (current_ - start_) - 2);
     AddToken(
         Token::TokenType::STRING,
         std::make_unique<LoxString>(std::move(value)));
 }
 
 void Scanner::Number() {
-    while (isdigit(Peek())) Advance();
+    while (IsDigit(Peek())) Advance();
 
     // Check if this is a decimal (double).
     bool is_decimal = false;
     if (Peek() == '.') {
         Advance();
-        if (!isdigit(Peek())) {
+        if (!IsDigit(Peek())) {
             util::Error(line_, "Invalid number.");
             had_error_ = true;
             return;
@@ -134,15 +156,17 @@ void Scanner::Number() {
         }
     }
 
-    while(isdigit(Peek())) Advance();
+    while(IsDigit(Peek())) Advance();
 
     if (is_decimal) {
-        double value = std::stod(source_.substr(start_, current_));
+        double value = std::stod(
+            source_.substr(start_, (current_ - start_)));
         AddToken(
             Token::TokenType::DOUBLE,
             std::make_unique<LoxDouble>(value));
     } else {
-        int value = std::stoi(source_.substr(start_, current_));
+        int value = std::stoi(
+            source_.substr(start_, (current_ - start_)));
         AddToken(
             Token::TokenType::INTEGER,
             std::make_unique<LoxInteger>(value));
@@ -150,7 +174,7 @@ void Scanner::Number() {
 }
 
 void Scanner::Identifier() {
-    while (isalnum(Peek())) Advance();
+    while (IsAlphaNumeric(Peek())) Advance();
 
     const static std::map<std::string, Token::TokenType>
         keywords = {
@@ -172,7 +196,7 @@ void Scanner::Identifier() {
             {"while", Token::TokenType::WHILE},
         };
     
-    std::string keyword = source_.substr(start_, current_);
+    std::string keyword = source_.substr(start_, (current_ - start_));
 
     const auto& type = keywords.find(keyword);
     if (type == keywords.end()) {
@@ -194,7 +218,7 @@ void Scanner::AddToken(const Token::TokenType& type) {
 void Scanner::AddToken(
     const Token::TokenType& type,
     std::unique_ptr<LoxObject> literal) {
-    std::string text = source_.substr(start_, current_);
+    std::string text = source_.substr(start_, (current_ - start_));
     tokens_.emplace_back(type, text, std::move(literal), line_);
 }
 

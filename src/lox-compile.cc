@@ -12,8 +12,11 @@
 namespace loxcompile {
 
 void LoxCompile::RunFile(std::string_view file_path) {
-    util::Error(1, "balhasdlfhasld");
-    Scanner scan("");
+    // TODO: Load source code from a text file.
+
+    std::string code = std::string(file_path);
+    Scanner scan(code);
+    scan.ScanTokens();
 }
 
 void LoxCompile::RunPrompt() {

@@ -5,8 +5,19 @@
 #include <iostream>
 #include <string>
 
-// Empty base interface class.
-struct LoxObject {};
+namespace loxcompile {
+
+// Base class for all lox objects. Allows us to define custom
+// operator overloads for each object type.
+struct LoxObject {
+    virtual ~LoxObject() = default;
+    virtual std::ostream& output(std::ostream&) const = 0;
+};
+
+inline std::ostream& operator<<(
+    std::ostream& os, const LoxObject& obj) {
+    return obj.output(os);
+}
 
 // The Lox representation of a string literal.
 struct LoxString : LoxObject {
@@ -14,9 +25,7 @@ struct LoxString : LoxObject {
 
     LoxString(std::string&& value);
 
-    std::ostream& operator<<(std::ostream& stream);
-
-    bool operator==(const LoxString& other_str);
+    std::ostream& output(std::ostream& os) const override;
 
     std::string value_;
 };
@@ -25,9 +34,7 @@ struct LoxString : LoxObject {
 struct LoxInteger : LoxObject {
     LoxInteger(int value);
 
-    std::ostream& operator<<(std::ostream& stream);
-
-    bool operator==(const LoxInteger& other_int);
+    std::ostream& output(std::ostream& os) const override;
 
     int value_;
 };
@@ -36,11 +43,11 @@ struct LoxInteger : LoxObject {
 struct LoxDouble : LoxObject {
     LoxDouble(double value);
 
-    std::ostream& operator<<(std::ostream& stream);
-
-    bool operator==(const LoxDouble& other_dbl);
+    std::ostream& output(std::ostream& os) const override;
 
     double value_;
 };
+
+}  // loxcompile
 
 #endif // LOX_OBJECT_H

@@ -37,8 +37,12 @@ class Token {
 
     friend std::ostream& operator<<(
         std::ostream& out, const Token& token) {
-        out << token.type_ << " " << token.lexeme_ <<
-            " " << token.literal_;
+        out << token.type_ << " " << token.lexeme_ << " ";
+        if (token.literal_) {
+            out << *token.literal_;
+        } else {
+            out << "NULL";
+        }
         return out;
     }
 
