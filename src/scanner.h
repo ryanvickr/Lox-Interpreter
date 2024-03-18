@@ -30,6 +30,10 @@ class Scanner {
     // and adds it to the available tokens.
     void Number();
 
+    /// @brief Parses a keyword identifier from `source_`, and
+    // adds its to the available tokens.
+    void Identifier();
+
     /// @section private helper methods.
 
     /// @brief Returns the next character from `source_`, and

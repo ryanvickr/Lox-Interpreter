@@ -2,6 +2,7 @@
 #include "scanner.h"
 
 #include <ctype.h>
+#include <map>
 #include <string>
 #include <utility>
 
@@ -80,7 +81,11 @@ void Scanner::ScanToken() {
 
         default:
             if (isdigit(c)) {
+                // Handle number literals:
                 Number();
+            } else if (isalpha(c)) {
+                // Handle reserved word identifiers:
+                Identifier();
             } else {
                 util::Error(line_, "Unexpected char.");
                 had_error_ = true;
@@ -141,6 +146,40 @@ void Scanner::Number() {
         AddToken(
             Token::TokenType::INTEGER,
             std::make_unique<LoxInteger>(value));
+    }
+}
+
+void Scanner::Identifier() {
+    while (isalnum(Peek())) Advance();
+
+    const static std::map<std::string, Token::TokenType>
+        keywords = {
+            {"and", Token::TokenType::AND},
+            {"class", Token::TokenType::CLASS},
+            {"else", Token::TokenType::ELSE},
+            {"false", Token::TokenType::FALSE},
+            {"for", Token::TokenType::FOR},
+            {"fun", Token::TokenType::FUN},
+            {"if", Token::TokenType::IF},
+            {"nil", Token::TokenType::NIL},
+            {"or", Token::TokenType::OR},
+            {"print", Token::TokenType::PRINT},
+            {"return", Token::TokenType::RETURN},
+            {"super", Token::TokenType::SUPER},
+            {"this", Token::TokenType::THIS},
+            {"true", Token::TokenType::TRUE},
+            {"var", Token::TokenType::VAR},
+            {"while", Token::TokenType::WHILE},
+        };
+    
+    std::string keyword = source_.substr(start_, current_);
+
+    const auto& type = keywords.find(keyword);
+    if (type == keywords.end()) {
+        // This is an identifier.
+        AddToken(Token::TokenType::IDENTIFIER);
+    } else {
+        AddToken(type->second);
     }
 }
 
