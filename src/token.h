@@ -35,7 +35,12 @@ class Token {
     Token(const TokenType& type, const std::string& lexeme,
         std::unique_ptr<LoxObject> literal, int line);
 
-    std::ostream& operator<<(std::ostream& stream);
+    friend std::ostream& operator<<(
+        std::ostream& out, const Token& token) {
+        out << token.type_ << " " << token.lexeme_ <<
+            " " << token.literal_;
+        return out;
+    }
 
  private:
     const TokenType type_;
