@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "lox-compile.h"
 #include "token.h"
 
 namespace loxcompile {

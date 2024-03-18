@@ -5,7 +5,6 @@
 #include <string>
 #include <utility>
 
-#include "lox-compile.h"
 #include "util.h"
 
 namespace loxcompile {
