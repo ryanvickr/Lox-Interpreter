@@ -6,7 +6,7 @@
 
 namespace loxcompile {
 
-/* BinaryExpression Implementation */
+/* BinaryExpression Definitions */
 
 BinaryExpression::BinaryExpression(
     std::unique_ptr<Expression> left, Token&& op, 
@@ -18,7 +18,7 @@ void BinaryExpression::Accept(Visitor* visitor) {
     visitor->VisitBinaryExpr(this);
 }
 
-/* GroupingExpression Implementation */
+/* GroupingExpression Definitions */
 
 GroupingExpression::GroupingExpression(
     std::unique_ptr<Expression> expression):
@@ -28,7 +28,7 @@ void GroupingExpression::Accept(Visitor* visitor) {
     visitor->VisitGroupingExpr(this);
 }
 
-/* LiteralExpression Implementation */
+/* LiteralExpression Definitions */
 
 LiteralExpression::LiteralExpression(std::unique_ptr<LoxObject> obj):
     obj_(std::move(obj)) {}
@@ -37,7 +37,7 @@ void LiteralExpression::Accept(Visitor* visitor) {
     visitor->VisitLiteralExpr(this);
 }
 
-/* UnaryExpression Implementation */
+/* UnaryExpression Definitions */
 
 UnaryExpression::UnaryExpression(
     Token&& op, std::unique_ptr<Expression> right):

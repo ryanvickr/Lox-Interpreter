@@ -34,6 +34,8 @@ class Visitor {
     virtual void VisitUnaryExpr(UnaryExpression* expr) = 0;
 };
 
+/* Expression child-class declarations. */
+
 class BinaryExpression : public Expression {
  public:
     BinaryExpression(
