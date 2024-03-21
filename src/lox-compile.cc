@@ -5,6 +5,7 @@
 #include <string>
 #include <string_view>
 
+#include "parsing/expression.h"
 #include "scanning/scanner.h"
 #include "scanning/token.h"
 #include "common/util.h"
@@ -17,6 +18,8 @@ void LoxCompile::RunFile(std::string_view file_path) {
     std::string code = std::string(file_path);
     Scanner scan(code);
     scan.ScanTokens();
+
+    BinaryExpression expr(Expression(), Token(), Expression());
 }
 
 void LoxCompile::RunPrompt() {

@@ -1,5 +1,6 @@
 # Packages in the src directory.
 add_subdirectory("common")
+add_subdirectory("parsing")
 add_subdirectory("scanning")
 target_sources(lox-compile PRIVATE lox-compile.cc PUBLIC lox-compile.h)
 
