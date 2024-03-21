@@ -46,7 +46,6 @@ class Token {
         return out;
     }
 
- private:
     const TokenType type_;
     const std::string lexeme_;
     std::unique_ptr<LoxObject> literal_;  // non-const to enable move

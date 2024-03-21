@@ -5,6 +5,7 @@
 #include <string>
 #include <string_view>
 
+#include "parsing/parser.h"  // TODO: Remove
 #include "parsing/expression.h" // TODO: Remove
 
 #include "scanning/scanner.h"

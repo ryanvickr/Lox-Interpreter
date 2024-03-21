@@ -7,6 +7,7 @@ add_library(loxobject "")
 add_library(token "")
 add_library(scanner "")
 add_library(expression "")
+add_library(parser "")
 add_library(lox-compile "")
 add_subdirectory("src")
 
