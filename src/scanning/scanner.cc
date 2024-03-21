@@ -6,7 +6,7 @@
 #include <string>
 #include <utility>
 
-#include "util.h"
+#include "../common/util.h"
 
 namespace loxcompile {
 namespace {

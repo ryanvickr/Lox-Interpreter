@@ -5,9 +5,9 @@
 #include <string>
 #include <string_view>
 
-#include "scanner.h"
-#include "token.h"
-#include "util.h"
+#include "scanning/scanner.h"
+#include "scanning/token.h"
+#include "common/util.h"
 
 namespace loxcompile {
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-#include "lox-object.h"
+#include "../common/lox-object.h"
 
 namespace loxcompile {
 
