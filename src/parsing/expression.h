@@ -7,7 +7,12 @@
 
 namespace loxcompile {
 
+// Forward-declare to allow for Visitor-pattern.
 class Visitor;
+class BinaryExpression;
+class GroupingExpression;
+class LiteralExpression;
+class UnaryExpression;
 
 class Expression {
  public:
@@ -15,11 +20,6 @@ class Expression {
 
     virtual void Accept(Visitor* visitor) = 0;
 };
-
-class BinaryExpression;
-class GroupingExpression;
-class LiteralExpression;
-class UnaryExpression;
 
 class Visitor {
  public:
